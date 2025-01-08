@@ -1,111 +1,108 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>簡易網頁</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      text-align: center;
-      background-color: #f4f4f9;
-      padding: 20px;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scrolling Menu</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+        }
 
-    ul {
-      list-style-type: none;
-      padding: 0;
-      width: 300px;
-      margin: 20px auto;
-      background: #fff;
-      border: 1px solid #ccc;
-      border-radius: 8px;
-    }
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: #333;
+            color: white;
+            padding: 10px 20px;
+            text-align: center;
+            z-index: 1000;
+        }
 
-    li {
-      padding: 15px;
-      border-bottom: 1px solid #ddd;
-      cursor: pointer;
-    }
+        #menu {
+            margin-top: 60px; /* To make space for the fixed header */
+            padding: 20px;
+            height: 100%;
+            overflow-y: scroll;
+            background-color: #f4f4f4;
+        }
 
-    li:last-child {
-      border-bottom: none;
-    }
+        #menu h2 {
+            margin: 0;
+            padding: 10px 0;
+            background-color: #ddd;
+        }
 
-    li.focus {
-      background-color: #4CAF50;
-      color: white;
-    }
+        .section {
+            margin: 10px 0;
+            padding: 20px;
+            background-color: #e2e2e2;
+        }
 
-    button {
-      margin-top: 20px;
-      padding: 10px 20px;
-      font-size: 16px;
-      color: #fff;
-      background-color: #4CAF50;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-    }
+        #gotonetflix {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #ff0000;
+            color: white;
+            padding: 15px 30px;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+        }
 
-    button:hover {
-      background-color: #45a049;
-    }
-  </style>
+        #gotonetflix:hover {
+            background-color: #cc0000;
+        }
+    </style>
 </head>
 <body>
-  <h1>簡易目錄</h1>
-  <ul id="menu">
-    <li>項目 1</li>
-    <li>項目 2</li>
-    <li>項目 3</li>
-    <li>項目 4</li>
-  </ul>
-  <button id="navigateButton">前往 NETFLIX</button>
 
-  <script>
-    // JavaScript 程式碼
+    <header>
+        <h1>My Web Page</h1>
+    </header>
 
-    // 初始化變數
-    const menuItems = document.querySelectorAll("#menu li");
-    let currentIndex = 0;
+    <div id="menu">
+        <div class="section">
+            <h2>Category 1</h2>
+            <p>Content for category 1...</p>
+        </div>
+        <div class="section">
+            <h2>Category 2</h2>
+            <p>Content for category 2...</p>
+        </div>
+        <div class="section">
+            <h2>Category 3</h2>
+            <p>Content for category 3...</p>
+        </div>
+        <!-- Add more sections here -->
+    </div>
 
-    // 設定初始焦點
-    menuItems[currentIndex].classList.add("focus");
+    <button id="gotonetflix">Go to Netflix</button>
 
-    // 處理鍵盤上下按鍵
-    document.addEventListener("keydown", (event) => {
-      if (event.key === "ArrowDown") {
-        // 移除當前焦點
-        menuItems[currentIndex].classList.remove("focus");
-        // 移動到下一個項目
-        currentIndex = (currentIndex + 1) % menuItems.length;
-        menuItems[currentIndex].classList.add("focus");
-      } else if (event.key === "ArrowUp") {
-        // 移除當前焦點
-        menuItems[currentIndex].classList.remove("focus");
-        // 移動到上一個項目
-        currentIndex = (currentIndex - 1 + menuItems.length) % menuItems.length;
-        menuItems[currentIndex].classList.add("focus");
-      }
-    });
+    <script>
+        // Simulating the NavigateTo method (for example purposes)
+        window.NavigateTo = function(destination, params, callback) {
+            console.log("Navigating to:", destination);
+            console.log("Parameters:", params);
+            // Call the callback function after the action
+            callback();
+        };
 
-    // 按下按鈕呼叫 NavigateTo
-    document.getElementById("navigateButton").addEventListener("click", () => {
-      if (typeof window.NavigateTo === "function") {
-        window.NavigateTo(
-          "NETFLIX",
-          { client_id: "canal" },
-          function () {
-            console.log("成功導航到 NETFLIX");
-            alert("已成功導航到 NETFLIX！");
-          }
-        );
-      } else {
-        console.log("window.NavigateTo 未定義！");
-        alert("window.NavigateTo 函數未定義！");
-      }
-    });
-  </script>
+        // Handling the button click
+        document.getElementById("gotonetflix").onclick = function() {
+            window.NavigateTo("NETFLIX", {client_id: "canal"}, function() {
+                console.log("Navigation completed!");
+                // You can add further actions here after the navigation, e.g., redirect
+                // window.location.href = "https://www.netflix.com";
+            });
+        };
+    </script>
+
 </body>
 </html>
