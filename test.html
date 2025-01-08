@@ -3,94 +3,97 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Apps Page</title>
+    <title>控制網址</title>
     <style>
         body {
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
+            height: 100%;
             background-color: #f4f4f4;
-        }
-        .container {
-            width: 100%;
-            height: 100vh;
             display: flex;
-            justify-content: center;
+            flex-direction: column;
+            justify-content: flex-start;
             align-items: center;
-            padding-top: 20px;
+            overflow-y: scroll; /* 使頁面能上下滾動 */
         }
         .menu {
-            width: 300px;
-            height: 70%;
-            overflow-y: scroll;
-            background-color: #fff;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            padding: 10px;
+            width: 100%;
+            max-width: 600px;
+            margin: 20px 0;
+            padding: 0;
+            list-style-type: none;
+            text-align: center;
         }
         .menu-item {
             padding: 20px;
-            margin-bottom: 10px;
+            margin: 10px 0;
+            background-color: #fff;
             border: 1px solid #ccc;
             cursor: pointer;
+            font-size: 20px;
             transition: background-color 0.3s;
         }
         .menu-item:hover {
             background-color: #f1f1f1;
         }
         .focused {
-            background-color: #00f;
-            color: #fff;
+            background-color: #00f; /* 藍色背景表示焦點 */
+            color: white;
+            font-weight: bold;
         }
         .button {
-            padding: 10px 20px;
-            margin-top: 20px;
+            padding: 15px 30px;
             background-color: #007bff;
             color: white;
             border: none;
             border-radius: 5px;
             cursor: pointer;
+            font-size: 20px;
+            margin-top: 20px;
             width: 100%;
-            font-size: 16px;
+            max-width: 600px;
         }
         .button:disabled {
             background-color: #ccc;
             cursor: not-allowed;
         }
+        #message {
+            color: red;
+            font-size: 18px;
+            margin-top: 10px;
+            display: none; /* 默認不顯示 */
+        }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="menu" id="menu">
-            <div class="menu-item">選項 1</div>
-            <div class="menu-item">選項 2</div>
-            <div class="menu-item">選項 3</div>
-            <div class="menu-item">選項 4</div>
-            <div class="menu-item">選項 5</div>
-            <div class="menu-item">選項 6</div>
-            <div class="menu-item">選項 7</div>
-            <div class="menu-item">選項 8</div>
-            <div class="menu-item">選項 9</div>
-            <div class="menu-item">選項 10</div>
-            <div class="menu-item" id="last-item">最後選項</div>
-        </div>
-    </div>
 
-    <div class="container">
-        <button class="button" id="navigate-button">Go to Netflix</button>
-    </div>
+    <ul class="menu">
+        <li class="menu-item">選項 1</li>
+        <li class="menu-item">選項 2</li>
+        <li class="menu-item">選項 3</li>
+        <li class="menu-item">選項 4</li>
+        <li class="menu-item">選項 5</li>
+        <li class="menu-item">選項 6</li>
+        <li class="menu-item">選項 7</li>
+        <li class="menu-item">選項 8</li>
+        <li class="menu-item">選項 9</li>
+        <li class="menu-item">選項 10</li>
+        <!-- 最後選項和按鈕合併 -->
+        <li class="menu-item" id="last-item">Go to Netflix</li>
+    </ul>
+
+    <div id="message">Not Support</div>
 
     <script>
         const menuItems = document.querySelectorAll('.menu-item');
-        const menuContainer = document.getElementById('menu');
-        const navigateButton = document.getElementById('navigate-button');
+        const messageDiv = document.getElementById('message');
         let focusedIndex = 0;
 
-        // Initialize the focus on the first item
+        // 初始化焦點
         menuItems[focusedIndex].classList.add('focused');
 
-        // Keydown event to navigate the menu
+        // 移動焦點
         document.addEventListener('keydown', (event) => {
             menuItems[focusedIndex].classList.remove('focused');
             
@@ -100,40 +103,33 @@
                 focusedIndex = Math.max(focusedIndex - 1, 0);
             }
 
+            // 更新焦點樣式
             menuItems[focusedIndex].classList.add('focused');
 
-            // Ensure the focused item is visible within the scroll container
-            const focusedItem = menuItems[focusedIndex];
-            const containerHeight = menuContainer.clientHeight;
-            const itemTop = focusedItem.offsetTop;
-            const itemBottom = itemTop + focusedItem.clientHeight;
-
-            if (itemTop < menuContainer.scrollTop) {
-                menuContainer.scrollTop = itemTop;
-            } else if (itemBottom > menuContainer.scrollTop + containerHeight) {
-                menuContainer.scrollTop = itemBottom - containerHeight;
+            // 如果焦點在最後一個選項，執行導航功能
+            if (focusedIndex === menuItems.length - 1) {
+                menuItems[focusedIndex].focus();
             }
 
-            // Check if the last item is focused
-            if (focusedIndex === menuItems.length - 1) {
-                window.NavigateTo("NETFLIX", {client_id: "canal"}, function(){});
+            // 顯示提示訊息
+            if (focusedIndex !== menuItems.length - 1) {
+                messageDiv.style.display = 'block';
+            } else {
+                messageDiv.style.display = 'none';
             }
         });
 
-        // Add click functionality (only for the last item)
+        // 目錄項目點擊事件
         menuItems.forEach((item, index) => {
             item.addEventListener('click', () => {
                 if (index === menuItems.length - 1) {
+                    // 最後選項調用功能
                     window.NavigateTo("NETFLIX", {client_id: "canal"}, function(){});
                 } else {
-                    alert('此選項沒有功能');
+                    // 顯示提示 "Not Support"
+                    messageDiv.style.display = 'block';
                 }
             });
-        });
-
-        // Button click functionality
-        navigateButton.addEventListener('click', () => {
-            window.NavigateTo("NETFLIX", {client_id: "canal"}, function(){});
         });
     </script>
 </body>
