@@ -92,6 +92,9 @@
         <li class="menu-item">選項 8</li>
         <li class="menu-item">選項 9</li>
         <li class="menu-item">選項 10</li>
+        <li class="menu-item">Go to Disney with deeplink</li>
+        <li class="menu-item">Go to Netflix with deeplink</li>
+        <li class="menu-item">Go to Disney</li>
         <!-- 最後選項和按鈕合併 -->
         <li class="menu-item" id="last-item">Go to Netflix</li>
     </ul>
@@ -124,17 +127,6 @@
             } else if (itemBottom > window.innerHeight) {
                 window.scrollBy(0, itemBottom - window.innerHeight);  // 向下滾動
             }
-
-            // 顯示提示訊息
-            if (focusedIndex !== menuItems.length - 1) {
-                messageDiv.style.display = 'block';  // 顯示提示文字
-                // 2秒後隱藏提示
-                setTimeout(() => {
-                    messageDiv.style.display = 'none';
-                }, 2000);
-            } else {
-                messageDiv.style.display = 'none';  // 隱藏提示文字
-            }
         }
 
         // 移動焦點
@@ -154,7 +146,13 @@
                 if (index === menuItems.length - 1) {
                     // 最後選項調用功能
                     window.NavigateTo("NETFLIX", {client_id: "canal"}, function(){});
-                } else {
+                } else if (index === menuItems.length - 2){
+                    window.NavigateTo("DISNEYPLUS",{client_id:"canal"},function(){})
+                }else if (index === menuItems.length - 3){
+                    window.NavigateTo("NETFLIX",{client_id : "canal", deeplink : "https://www.netflix.com/title/80197526?iid=52c74bbc&source=a02392c2eadfdae6c5b9dde432a10e9f"} , function(){})
+                }else if (index === menuItems.length - 4){
+                    window.NavigateTo("DISNEYPLUS",{client_id:"canal",deeplink:"https://www.disneyplus.com/5a3-9bcf-b07e631a603f"},function(){})
+                }else {
                     // 顯示提示 "Not Support"
                     messageDiv.style.display = 'block';
                     // 2秒後隱藏提示
