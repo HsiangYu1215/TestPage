@@ -20,7 +20,7 @@
         .menu {
             width: 100%;
             max-width: 600px;
-            margin: 20px 0;
+            margin: 80px 0 20px; /* 調整上邊距，以避免與提示重疊 */
             padding: 0;
             list-style-type: none;
             text-align: center;
@@ -42,6 +42,22 @@
             color: white;
             font-weight: bold;
         }
+        #message {
+            width: 100%;
+            max-width: 600px;
+            background-color: #ff4d4d; /* 紅色背景表示錯誤或不支持 */
+            color: white;
+            font-size: 18px;
+            padding: 15px;
+            text-align: center;
+            position: fixed;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 9999;
+            display: none; /* 默認不顯示 */
+            border-radius: 5px 5px 0 0; /* 上邊圓角 */
+        }
         .button {
             padding: 15px 30px;
             background-color: #007bff;
@@ -58,15 +74,12 @@
             background-color: #ccc;
             cursor: not-allowed;
         }
-        #message {
-            color: red;
-            font-size: 18px;
-            margin-top: 10px;
-            display: none; /* 默認不顯示 */
-        }
     </style>
 </head>
 <body>
+
+    <!-- 提示文字放置在頁面最上面 -->
+    <div id="message">Not Support</div>
 
     <ul class="menu">
         <li class="menu-item">選項 1</li>
@@ -82,8 +95,6 @@
         <!-- 最後選項和按鈕合併 -->
         <li class="menu-item" id="last-item">Go to Netflix</li>
     </ul>
-
-    <div id="message">Not Support</div>
 
     <script>
         const menuItems = document.querySelectorAll('.menu-item');
@@ -116,9 +127,13 @@
 
             // 顯示提示訊息
             if (focusedIndex !== menuItems.length - 1) {
-                messageDiv.style.display = 'block';
+                messageDiv.style.display = 'block';  // 顯示提示文字
+                // 2秒後隱藏提示
+                setTimeout(() => {
+                    messageDiv.style.display = 'none';
+                }, 2000);
             } else {
-                messageDiv.style.display = 'none';
+                messageDiv.style.display = 'none';  // 隱藏提示文字
             }
         }
 
@@ -142,6 +157,10 @@
                 } else {
                     // 顯示提示 "Not Support"
                     messageDiv.style.display = 'block';
+                    // 2秒後隱藏提示
+                    setTimeout(() => {
+                        messageDiv.style.display = 'none';
+                    }, 2000);
                 }
             });
         });
