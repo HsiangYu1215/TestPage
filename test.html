@@ -145,14 +145,14 @@
             item.addEventListener('click', () => {
                 if (index === menuItems.length - 1) {
                     // 最後選項調用功能
-                    window.NavigateTo("NETFLIX", {client_id: "canal"}, function(){});
+                    window.NavigateTo("NETFLIX", {client_id: "canal"}, function() {});
                 } else if (index === menuItems.length - 2){
-                    window.NavigateTo("DISNEYPLUS",{client_id:"canal"},function(){})
-                }else if (index === menuItems.length - 3){
-                    window.NavigateTo("NETFLIX",{client_id : "canal", deeplink : "https://www.netflix.com/title/80197526?iid=52c74bbc&source=a02392c2eadfdae6c5b9dde432a10e9f"} , function(){})
-                }else if (index === menuItems.length - 4){
-                    window.NavigateTo("DISNEYPLUS",{client_id:"canal",deeplink:"https://www.disneyplus.com/5a3-9bcf-b07e631a603f"},function(){})
-                }else {
+                    window.NavigateTo("DISNEYPLUS", {client_id:"canal"}, function() {});
+                } else if (index === menuItems.length - 3){
+                    window.NavigateTo("NETFLIX", {client_id: "canal", deeplink: "https://www.netflix.com/title/80197526?iid=52c74bbc&source=a02392c2eadfdae6c5b9dde432a10e9f"}, function() {});
+                } else if (index === menuItems.length - 4){
+                    window.NavigateTo("DISNEYPLUS", {client_id:"canal", deeplink: "https://www.disneyplus.com/5a3-9bcf-b07e631a603f"}, function() {});
+                } else {
                     // 顯示提示 "Not Support"
                     messageDiv.style.display = 'block';
                     // 2秒後隱藏提示
