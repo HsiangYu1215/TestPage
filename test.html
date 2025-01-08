@@ -93,44 +93,14 @@
         // 初始化焦點
         menuItems[focusedIndex].classList.add('focused');
 
-        // 移動焦點
-        document.addEventListener('keydown', (event) => {
-            menuItems[focusedIndex].classList.remove('focused');
+        // 更新焦點顯示並滾動頁面
+        function updateFocus() {
+            // 移除所有焦點樣式
+            menuItems.forEach(item => item.classList.remove('focused'));
             
-            if (event.key === 'ArrowDown') {
-                focusedIndex = Math.min(focusedIndex + 1, menuItems.length - 1);
-            } else if (event.key === 'ArrowUp') {
-                focusedIndex = Math.max(focusedIndex - 1, 0);
-            }
-
-            // 更新焦點樣式
+            // 為當前焦點項添加焦點樣式
             menuItems[focusedIndex].classList.add('focused');
 
-            // 如果焦點在最後一個選項，執行導航功能
-            if (focusedIndex === menuItems.length - 1) {
-                menuItems[focusedIndex].focus();
-            }
-
-            // 顯示提示訊息
-            if (focusedIndex !== menuItems.length - 1) {
-                messageDiv.style.display = 'block';
-            } else {
-                messageDiv.style.display = 'none';
-            }
-        });
-
-        // 目錄項目點擊事件
-        menuItems.forEach((item, index) => {
-            item.addEventListener('click', () => {
-                if (index === menuItems.length - 1) {
-                    // 最後選項調用功能
-                    window.NavigateTo("NETFLIX", {client_id: "canal"}, function(){});
-                } else {
-                    // 顯示提示 "Not Support"
-                    messageDiv.style.display = 'block';
-                }
-            });
-        });
-    </script>
-</body>
-</html>
+            // 保持焦點可見
+            const focusedItem = menuItems[focusedIndex];
+            const itemRect = fo
