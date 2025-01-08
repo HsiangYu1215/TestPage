@@ -103,4 +103,48 @@
 
             // 保持焦點可見
             const focusedItem = menuItems[focusedIndex];
-            const itemRect = fo
+            const itemRect = focusedItem.getBoundingClientRect();
+            const itemTop = itemRect.top;
+            const itemBottom = itemRect.bottom;
+
+            // 當焦點項目超出可視範圍時，滾動頁面
+            if (itemTop < 0) {
+                window.scrollBy(0, itemTop);  // 向上滾動
+            } else if (itemBottom > window.innerHeight) {
+                window.scrollBy(0, itemBottom - window.innerHeight);  // 向下滾動
+            }
+
+            // 顯示提示訊息
+            if (focusedIndex !== menuItems.length - 1) {
+                messageDiv.style.display = 'block';
+            } else {
+                messageDiv.style.display = 'none';
+            }
+        }
+
+        // 移動焦點
+        document.addEventListener('keydown', (event) => {
+            if (event.key === 'ArrowDown') {
+                focusedIndex = Math.min(focusedIndex + 1, menuItems.length - 1);
+            } else if (event.key === 'ArrowUp') {
+                focusedIndex = Math.max(focusedIndex - 1, 0);
+            }
+
+            updateFocus();  // 更新焦點顯示及滾動頁面
+        });
+
+        // 目錄項目點擊事件
+        menuItems.forEach((item, index) => {
+            item.addEventListener('click', () => {
+                if (index === menuItems.length - 1) {
+                    // 最後選項調用功能
+                    window.NavigateTo("NETFLIX", {client_id: "canal"}, function(){});
+                } else {
+                    // 顯示提示 "Not Support"
+                    messageDiv.style.display = 'block';
+                }
+            });
+        });
+    </script>
+</body>
+</html>
