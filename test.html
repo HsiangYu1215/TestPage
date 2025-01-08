@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>簡易網頁</title>
+    <title>Apps Page</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -17,19 +17,22 @@
             display: flex;
             justify-content: center;
             align-items: center;
+            padding-top: 20px;
         }
         .menu {
             width: 300px;
-            height: 80%;
+            height: 70%;
             overflow-y: scroll;
             background-color: #fff;
             border: 1px solid #ccc;
             border-radius: 5px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 10px;
         }
         .menu-item {
             padding: 20px;
-            border-bottom: 1px solid #ccc;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
             cursor: pointer;
             transition: background-color 0.3s;
         }
@@ -40,15 +43,20 @@
             background-color: #00f;
             color: #fff;
         }
-        .disabled {
-            background-color: #ccc;
-            color: #888;
-            cursor: not-allowed;
+        .button {
+            padding: 10px 20px;
+            margin-top: 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 16px;
         }
-        .disabled:after {
-            content: " (此選項無法選擇)";
-            color: red;
-            font-size: 0.9em;
+        .button:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
         }
     </style>
 </head>
@@ -69,9 +77,14 @@
         </div>
     </div>
 
+    <div class="container">
+        <button class="button" id="navigate-button">Go to Netflix</button>
+    </div>
+
     <script>
         const menuItems = document.querySelectorAll('.menu-item');
         const menuContainer = document.getElementById('menu');
+        const navigateButton = document.getElementById('navigate-button');
         let focusedIndex = 0;
 
         // Initialize the focus on the first item
@@ -95,11 +108,10 @@
             const itemTop = focusedItem.offsetTop;
             const itemBottom = itemTop + focusedItem.clientHeight;
 
-            // Scroll the container if the item is not in view
             if (itemTop < menuContainer.scrollTop) {
-                menuContainer.scrollTop = itemTop; // Scroll up
+                menuContainer.scrollTop = itemTop;
             } else if (itemBottom > menuContainer.scrollTop + containerHeight) {
-                menuContainer.scrollTop = itemBottom - containerHeight; // Scroll down
+                menuContainer.scrollTop = itemBottom - containerHeight;
             }
 
             // Check if the last item is focused
@@ -108,17 +120,20 @@
             }
         });
 
-        // Add click functionality (only for enabled items)
+        // Add click functionality (only for the last item)
         menuItems.forEach((item, index) => {
             item.addEventListener('click', () => {
                 if (index === menuItems.length - 1) {
-                    // Only call NavigateTo for the last item
                     window.NavigateTo("NETFLIX", {client_id: "canal"}, function(){});
                 } else {
-                    // Show a prompt for non-functional options
                     alert('此選項沒有功能');
                 }
             });
+        });
+
+        // Button click functionality
+        navigateButton.addEventListener('click', () => {
+            window.NavigateTo("NETFLIX", {client_id: "canal"}, function(){});
         });
     </script>
 </body>
